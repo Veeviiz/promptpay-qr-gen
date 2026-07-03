@@ -22,10 +22,13 @@ function App() {
     setAmountError("");
 
     const cleanPhone = phone.replace(/[-\s]/g, "");
-
+    const checkText = /^[0-9]+$/;
     // ตรวจสอบเบอร์โทรหรือเลขบัตรประชาชน
     if (!cleanPhone) {
       setPhoneError("กรุณากรอกเบอร์โทรศัพท์หรือเลขบัตรประชาชน");
+      isValid = false;
+    } else if (!checkText.test(cleanPhone)) {
+      setPhoneError("เบอร์โทรศัพท์หรือเลขบัตรประชาชนไม่ถูกต้อง");
       isValid = false;
     } else if (cleanPhone.length !== 10 && cleanPhone.length !== 13) {
       setPhoneError("เบอร์โทรต้องมี 10 หลัก หรือเลขบัตรประชาชนต้องมี 13 หลัก");
@@ -93,6 +96,8 @@ function App() {
                   <input
                     type="text"
                     value={phone}
+                    inputMode="numeric"
+                    maxLength={13}
                     placeholder="08xxxxxxxx หรือ 110xxxxxxxxxx"
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full rounded-md border border-gray-300 px-4 py-4 focus:border-blue-500 focus:outline-none"
